@@ -2,7 +2,7 @@
 
 > RWKV-7 0.4B continued pre-training on code, agentic reasoning, and tool-use data with thinking format.
 
-**Status:** Training 74.5% complete (14910/20000 steps) · Checkpoint soon
+**Status:** Training DONE — 20,000 steps completed
 
 ## Model
 
