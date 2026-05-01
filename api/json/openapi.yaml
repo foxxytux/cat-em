@@ -1,0 +1,122 @@
+openapi: "3.0.3"
+info:
+  title: CodeAgent-RWKV API
+  version: "1.0.0"
+  description: REST API for the CodeAgent-RWKV-7 0.4B thinking-format coding model.
+servers:
+  - url: http://127.0.0.1:8080
+    description: Local server
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  device:
+                    type: string
+                  model:
+                    type: string
+              example:
+                status: ok
+                device: cuda
+                model: CodeAgent-RWKV7-0.4B
+
+  /v1/chat:
+    post:
+      summary: Chat with the model
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatRequest"
+            examples:
+              python:
+                summary: Python function request
+                value:
+                  prompt: Write a function to reverse a string
+                  system: You are a helpful coding assistant
+                  max_tokens: 256
+                  temperature: 0.7
+                  top_p: 0.9
+      responses:
+        "200":
+          description: Chat response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatResponse"
+
+  /v1/chat/stream:
+    post:
+      summary: Chat with streaming (SSE)
+      requestBody:
+        $ref: "#/components/schemas/ChatRequest"
+      responses:
+        "200":
+          description: SSE stream
+          content:
+            text/event-stream:
+              schema:
+                type: string
+
+  /v1/complete:
+    post:
+      summary: Raw completion (no thinking format)
+      requestBody:
+        $ref: "#/components/schemas/ChatRequest"
+      responses:
+        "200":
+          $ref: "#/components/schemas/ChatResponse"
+
+components:
+  schemas:
+    ChatRequest:
+      type: object
+      required: [prompt]
+      properties:
+        prompt:
+          type: string
+          description: User prompt
+        system:
+          type: string
+          default: "You are a helpful coding assistant. Think step by step."
+        max_tokens:
+          type: integer
+          default: 512
+          maximum: 2048
+        temperature:
+          type: number
+          default: 0.7
+          minimum: 0.0
+          maximum: 2.0
+        top_p:
+          type: number
+          default: 0.9
+          minimum: 0.0
+          maximum: 1.0
+        stream:
+          type: boolean
+          default: false
+
+    ChatResponse:
+      type: object
+      properties:
+        text:
+          type: string
+        usage:
+          type: object
+          properties:
+            tokens:
+              type: integer
+            time:
+              type: number

@@ -1,0 +1,42 @@
+# Core dependencies
+torch>=2.4.0
+torchvision
+torchaudio
+
+# Hugging Face ecosystem
+transformers>=4.40.0
+datasets>=2.19.0
+accelerate>=0.30.0
+huggingface-hub>=0.23.0
+
+# Training & Optimization
+bitsandbytes
+peft>=0.11.0
+deepspeed>=0.14.0
+flash-attn>=2.5.0
+xformers
+
+# Data processing
+numpy>=1.26.0
+pandas>=2.2.0
+pyarrow>=15.0.0
+sentencepiece
+tiktoken
+
+# Utilities
+tqdm>=4.66.0
+wandb>=0.17.0
+tensorboard>=2.16.0
+pyyaml>=6.0.1
+python-dotenv>=1.0.0
+
+# RWKV specific
+rwkv>=0.8.0
+
+# Vast.ai CLI
+vastai
+
+# Optional but recommended
+jupyterlab
+matplotlib
+seaborn

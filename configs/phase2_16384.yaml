@@ -1,0 +1,85 @@
+# Phase 2: Context Extension (ctx_len=16384)
+model:
+  name: "mollysama/rwkv-7-g1d:0.4b"
+  base_model: "./checkpoints/phase1/final"
+  architecture: "RWKV-7-Goose-G1d"
+  vocab_size: 65536
+  
+# Training hyperparameters
+training:
+  phase: 2
+  ctx_len: 16384
+  batch_size: 4
+  gradient_accumulation_steps: 8
+  learning_rate: 2.0e-5
+  min_learning_rate: 2.0e-6
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  num_epochs: 2
+  warmup_ratio: 0.03
+  lr_scheduler: "cosine"
+  
+# Optimization
+optimization:
+  precision: "bf16"
+  optimizer: "adamw"
+  beta1: 0.9
+  beta2: 0.99
+  eps: 1.0e-8
+  gradient_checkpointing: true
+  
+# Data
+data:
+  datasets:
+    - "bigcode/starcoder2data-extras"
+    - "bigcode/the-stack-v2-dedup"
+    - "m-a-p/CodeFeedback-Filtered-Instruction"
+    - "princeton-nlp/SWE-bench_Verified"
+    - "nvidia/OpenCodeReasoning"
+    - "R2E-Gym"
+    - "agentica-org/DeepSWE-Preview"
+    - "THUDM/AgentInstruct"
+    - "tuandunghcmut/toolbench-v1"
+    - "open-thoughts/OpenThoughts-Agent-v1-SFT"
+    - "princeton-nlp/SWE-bench"
+    - "open-thoughts/OpenThoughts-114k"
+    - "openbmb/UltraChat"
+  data_mix_weights:
+    code: 0.35
+    agentic: 0.35
+    reasoning: 0.20
+    conversation: 0.10
+  num_proc: 8
+  
+# Thinking Format
+format:
+  thinking_token: "Thinking..."
+  answer_token: "Answer:"
+  user_token: "User:"
+  assistant_token: "Assistant:"
+  system_prompt: "You are a helpful coding assistant. Think step by step before providing your answer."
+  
+# Context Extension
+extension:
+  method: "ntk-aware"
+  scale_factor: 4.0
+  interpolate_factor: 2.0
+  trainable_rope: true
+  
+# Logging & Checkpointing
+logging:
+  output_dir: "./checkpoints/phase2"
+  logging_dir: "./logs/phase2"
+  logging_steps: 10
+  eval_steps: 500
+  save_steps: 1000
+  save_total_limit: 3
+  report_to: "wandb"
+  run_name: "codeagent-rwkv7-phase2-ctx16384"
+  
+# Hardware
+hardware:
+  device: "cuda"
+  num_gpus: 1
+  dataloader_num_workers: 4
+  dataloader_pin_memory: true

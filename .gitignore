@@ -1,0 +1,13 @@
+*.gguf
+*.pth
+*.tar.gz
+checkpoints/
+logs/
+.venv/
+__pycache__/
+*.pyc
+*.o
+*.so
+build/
+tmp/
+.*

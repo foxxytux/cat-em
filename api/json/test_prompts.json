@@ -1,0 +1,50 @@
+{
+  "tests": [
+    {
+      "id": "hello",
+      "prompt": "Write a hello world program in Python",
+      "expect": "print"
+    },
+    {
+      "id": "reverse",
+      "prompt": "Write a Python function to reverse a string",
+      "expect": "def"
+    },
+    {
+      "id": "fact",
+      "prompt": "What is the capital of France?",
+      "expect": "Paris"
+    },
+    {
+      "id": "fibonacci",
+      "prompt": "Implement the Fibonacci sequence in Python",
+      "expect": "def fib"
+    },
+    {
+      "id": "error",
+      "prompt": "How do I fix IndexError: list index out of range?",
+      "expect": "list"
+    },
+    {
+      "id": "api",
+      "prompt": "Write a REST API endpoint in Python using FastAPI",
+      "expect": "FastAPI"
+    },
+    {
+      "id": "sort",
+      "prompt": "Sort a list of numbers in descending order Python",
+      "expect": "sort"
+    },
+    {
+      "id": "json",
+      "prompt": "Parse JSON from a file in Python",
+      "expect": "json"
+    }
+  ],
+  "curl_examples": {
+    "chat": "curl -X POST http://127.0.0.1:8080/v1/chat -H 'Content-Type: application/json' -d '{\"prompt\":\"Write a hello world in Python\"}'",
+    "stream": "curl -X POST http://127.0.0.1:8080/v1/chat/stream -H 'Content-Type: application/json' -d '{\"prompt\":\"Hello\"}'",
+    "complete": "curl -X POST http://127.0.0.1:8080/v1/complete -H 'Content-Type: application/json' -d '{\"prompt\":\"# Python function to\"}'",
+    "health": "curl http://127.0.0.1:8080/health"
+  }
+}
